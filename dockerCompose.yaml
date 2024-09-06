@@ -1,0 +1,35 @@
+version: "3.9"
+name: moleculer
+
+services:
+  moleculer:
+    build: .
+    container_name: moleculer
+    links:
+      - nats
+    depends_on:
+      - db
+      - nats
+    environment:
+      - POSTGRES_HOST=db
+      - POSTGRES_PORT=5432
+      - TRANSPORTER=nats://nats:4222
+      
+  db:
+    image: postgres:latest
+    container_name: db
+    restart: always
+    environment:
+      - POSTGRES_USER=${POSTGRES_USERNAME}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DATABASE}
+      - POSTGRES_PORT=${POSTGRES_PORT}
+    ports:
+      - "${POSTGRES_PORT}:5432"
+
+  nats:
+    image: nats:latest
+    container_name: nats
+    ports:
+      - "4222:4222"
+      
