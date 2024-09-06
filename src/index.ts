@@ -1,7 +1,7 @@
 import "dotenv/config"
-import { ServiceBroker, ServiceSchema } from "moleculer";
+import { ServiceBroker } from "moleculer";
 import HttpService from "moleculer-web";
-import UserService from "./users/user.service";
+import TasksService from "./tasks/task.service";
 
 // Создаем сервисный брокер
 const brokerGateway = new ServiceBroker({
@@ -30,7 +30,7 @@ brokerGateway.createService({
         routes: {
           path: "/",
           whitelist: [
-            "users/**"
+            "tasks/**"
           ],
           autoAliases: true
         }
@@ -39,7 +39,7 @@ brokerGateway.createService({
   ]
 });
 
-brokerGateway.createService(UserService);
+brokerGateway.createService(TasksService);
 
 brokerGateway.start()
   .then(() => {

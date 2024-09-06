@@ -7,7 +7,7 @@ export const create: ActionSchema = {
     },
     async handler(this: Service, ctx: Context<GenericObject>) {
         const result = await queryToPostgres({
-            text: 'INSERT INTO users(name) VALUES($1)',
+            text: 'INSERT INTO tasks(text) VALUES($1)',
             values: [ctx.params.name],
           })
         return result;
@@ -17,12 +17,12 @@ export const create: ActionSchema = {
 export const update: ActionSchema = {
     params: {
         name: { type: "string" },
-        userId: { type: "number" },
+        taskId: { type: "number" },
     },
     async handler(this: Service, ctx: Context<GenericObject>) {
         const result = await queryToPostgres({
-            text: 'UPDATE users SET name = $1 WHERE id = $2',
-            values: [ctx.params.name, ctx.params.userId],
+            text: 'UPDATE tasks SET text = $1 WHERE id = $2',
+            values: [ctx.params.name, ctx.params.taskId],
           })
         return result;
     },
@@ -31,17 +31,20 @@ export const update: ActionSchema = {
 export const list: ActionSchema = {
     async handler(this: Service) {
         const result = await queryToPostgres({
-            text: "SELECT * FROM users",
+            text: "SELECT * FROM tasks",
         })
         return result;
     },
 }
 
 export const destroy: ActionSchema = {
+    params: {
+        taskId: { type: "number" },
+    },
     async handler(this: Service, ctx: Context<GenericObject>) {
         const result = await queryToPostgres({
-            text: "DELETE FROM users WHERE id = $1",
-            values: [ctx.params.userId]
+            text: "DELETE FROM tasks WHERE id = $1",
+            values: [ctx.params.taskId]
         })
         return result;
     },

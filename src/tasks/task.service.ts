@@ -1,8 +1,8 @@
 import { ServiceSchema } from "moleculer";
-import { create, destroy, list, update } from "./user.action";
+import { create, destroy, list, update } from "./task.action";
 
-const UserService: ServiceSchema = {
-    name: "users",
+const TasksService: ServiceSchema = {
+    name: "tasks",
     actions: {
         create: create,
         list: list,
@@ -11,4 +11,4 @@ const UserService: ServiceSchema = {
     }
 };
 
-export default UserService;
+export default TasksService;
